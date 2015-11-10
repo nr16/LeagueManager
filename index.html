@@ -1,0 +1,31 @@
+<html ng-app="HSVApp">
+<head>
+  <meta charset="utf8" />
+  <title>Holthausener Sportverein</title>
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  <style>
+body {
+ /* border: solid 8pt #5555aa; */
+ padding-left: 16pt
+}
+.article { border-bottom: solid 1px #5555aa; margin-bottom: 8pt }
+/* .container { border: solid 2pt #5555aa; } */
+  </style>
+</head>
+<body>
+  <h1>Holthausener Sportverein</h1>
+  <div class="container">
+
+    <p class="well">
+      <a href="#/">Start</a> | <a href="#/about">Über</a>
+    </p>
+    
+    <div ng-view></div>
+
+  </div>
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-route.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

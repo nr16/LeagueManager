@@ -1,0 +1,10 @@
+  <h2>Neuigkeiten</h2>
+  <div class="container" ng-controller="ArticlesCtrl">
+    <div ng-repeat="art in articles">
+      <div class="article">
+        <h2>{{art.title}}</h2>
+        <p ng-bind-html="art.content"></p>
+      </div>
+    </div>
+  </div>
+  <h2>Spiele</h2>
