@@ -47,6 +47,7 @@ app.controller('SpielerCtrl', function($scope, $http) {
 app.controller('SpielerDetailsCtrl', ['$scope', '$routeParams', '$http', function($scope, $routeParams, $http) {
     $http.get('api.php/jos_fussball_spieler,jos_fussball_spieler_details?filter=id,eq,' + $routeParams.spielerId).then(function(spielerResponse) {
       $scope.spieler = php_crud_api_transform(spielerResponse.data)["jos_fussball_spieler"][0];
+      $scope.spieler.details = $scope.spieler.jos_fussball_spieler_details[0];
     });
 	}]);
   
