@@ -1,0 +1,9 @@
+<h2>Spieler</h2>
+<div class="container" ng-controller="SpielerCtrl">
+  <div ng-repeat="sp in spieler">
+    <div class="spieler">
+      <h3><a href="#/SpielerDetails/{{sp.id}}">{{sp.name}}</a></h3>
+      <p><strong>Spiele:</strong> {{sp.anzahlSpiele}} <strong>Tore:</strong> {{sp.anzahlTore}}</p>
+    </div>
+  </div>
+</div>

@@ -6,6 +6,8 @@ app.config(function($routeProvider) {
     $routeProvider
       .when('/', { templateUrl: 'start.html' })
       .when('/edit_article/:articleId', { templateUrl: 'edit_article.html', controller: 'ArticleEditCtrl' })
+      .when('/Spieler', { templateUrl: 'Spieler.html' })
+      .when('/SpielerDetails/:spielerId', { templateUrl: 'SpielerDetails.html', controller: 'SpielerDetailsCtrl' })
       .when('/about', { template: 'Über uns ...' })
       .otherwise({ redirectTo: '/'});
   });
@@ -34,3 +36,17 @@ app.controller('ArticleEditCtrl', ['$scope', '$routeParams', function($scope, $r
       console.info($scope.editorContent, 'save');
   }
 }]);
+
+
+app.controller('SpielerCtrl', function($scope, $http) {
+    $http.get('api.php/jos_fussball_spieler').then(function(spielerResponse) {
+      $scope.spieler = php_crud_api_transform(spielerResponse.data)["jos_fussball_spieler"];
+    });
+	});
+  
+app.controller('SpielerDetailsCtrl', ['$scope', '$routeParams', '$http', function($scope, $routeParams, $http) {
+    $http.get('api.php/jos_fussball_spieler,jos_fussball_spieler_details?filter=id,eq,' + $routeParams.spielerId).then(function(spielerResponse) {
+      $scope.spieler = php_crud_api_transform(spielerResponse.data)["jos_fussball_spieler"][0];
+    });
+	}]);
+  
