@@ -41,6 +41,12 @@ app.controller('ArticleEditCtrl', ['$scope', '$routeParams', function($scope, $r
 app.controller('SpielerCtrl', function($scope, $http) {
     $http.get('api.php/jos_fussball_spieler').then(function(spielerResponse) {
       $scope.spieler = php_crud_api_transform(spielerResponse.data)["jos_fussball_spieler"];
+      $scope.predicate = 'anzahlTore';
+      $scope.reverse = true;
+      $scope.order = function(predicate) {
+        $scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;
+        $scope.predicate = predicate;
+      }
     });
 	});
   
