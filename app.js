@@ -59,6 +59,6 @@ app.controller('SpielerDetailsCtrl', ['$scope', '$routeParams', '$http', functio
   
  app.filter("imageName", [function() {
    return function(spielerName) {
-     return spielerName.replace(" ", "_");
+       return ("" + spielerName).replace(" ", "_");
    }
  }]);
