@@ -1,3 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -6,6 +7,13 @@
     <RootNamespace>HSV_AngularJS</RootNamespace>
     <OutputType>Library</OutputType>
     <ProjectTypeGuids>{A0786B88-2ADB-4C21-ABE8-AA2D79766269}</ProjectTypeGuids>
+    <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+    <Server>PHPDev</Server>
+    <PublishEvent>None</PublishEvent>
+    <PHPDevAutoPort>True</PHPDevAutoPort>
+    <PHPDevPort>37730</PHPDevPort>
+    <PHPDevHostName>localhost</PHPDevHostName>
+    <IISProjectUrl>http://localhost:37730/</IISProjectUrl>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <IncludeDebugInformation>true</IncludeDebugInformation>
@@ -447,7 +455,7 @@
     <Compile Include="images\spieler\Sven_Böing.jpg" />
     <Compile Include="images\spieler\Ulrich_Kleining.jpg" />
     <Compile Include=".gitignore" />
-    <Compile Include="api.php" />
+    <Compile Include="backend.php" />
     <Compile Include="app.js" />
     <Compile Include="articles.json" />
     <Compile Include="ckeditor.zip" />
@@ -457,10 +465,11 @@
     <Compile Include="install.sql" />
     <Compile Include="ng-ckeditor.css" />
     <Compile Include="ng-ckeditor.min.js" />
+    <Compile Include="php-crud-api\api.php" />
     <Compile Include="php_crud_api_transform.js" />
-    <Compile Include="Spieler.html" />
-    <Compile Include="SpielerDetails.html" />
-    <Compile Include="start.html" />
+    <Compile Include="views\Spieler.html" />
+    <Compile Include="views\SpielerDetails.html" />
+    <Compile Include="views\Start.html" />
     <Compile Include="test.php" />
   </ItemGroup>
   <ItemGroup>
@@ -573,5 +582,11 @@
     <Folder Include="ckeditor" />
     <Folder Include="images\spieler" />
     <Folder Include="images" />
+    <Folder Include="views\" />
+    <Folder Include="php-crud-api\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="views\About.html" />
+    <Content Include="views\Articles.html" />
   </ItemGroup>
 </Project>
