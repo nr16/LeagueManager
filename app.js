@@ -2,6 +2,7 @@
 
 var app = angular.module('HSVApp', ['ngRoute', 'ngSanitize', 'ngCkeditor']);
 
+var hsv_team_id = 3;
 var backend = 'backend.php/';
 var tablePrefix = 'lm_';
 var backPrefix = backend + tablePrefix;
@@ -12,23 +13,41 @@ app.config(function($routeProvider) {
       .when('/History', { templateUrl: 'views/History.html' })
       .when('/Articles', { templateUrl: 'views/Articles.html' })
       .when('/edit_article/:articleId', { templateUrl: 'edit_article.html', controller: 'ArticleEditCtrl' })
-      .when('/Spieler', { templateUrl: 'views/Spieler.html' })
-      .when('/SpielerDetails/:spielerId', { templateUrl: 'views/SpielerDetails.html', controller: 'SpielerDetailsCtrl' })
+      .when('/Player', { templateUrl: 'views/Player.html' })
+      .when('/PlayerDetails/:playerId', { templateUrl: 'views/PlayerDetails.html', controller: 'PlayerDetailsCtrl' })
+      .when('/Matches', { templateUrl: 'views/Matches.html' })
       .when('/Impressum', { templateUrl: 'views/Impressum.html' })
       .otherwise({ redirectTo: '/'});
   });
   
 app.filter("imageName", [function() {
-    return function(spielerName) {
-        return ("" + spielerName).replace(" ", "_");
+    return function (playerObj) {
+        if (playerObj == null)
+            return "undefined";
+
+        return (playerObj.firstname + "_" + playerObj.lastname).replace(" ", "_");
     }
 }]);
 
 
-app.controller('SpielerCtrl', function($scope, $http) {
-    $http.get('backend.php/jos_fussball_spieler').then(function (spielerResponse) {
-        $scope.spieler = php_crud_api_transform(spielerResponse.data)["jos_fussball_spieler"];
-        $scope.predicate = 'anzahlTore';
+app.controller('MatchesCtrl', function ($scope, $http) {
+    $http.get(backPrefix + 'v_matches?satisfy=any&filter[]=team1_id,eq,' + hsv_team_id + '&filter[]=team2_id,eq,' + hsv_team_id)
+        
+        .then(function (matchResp) {
+            $scope.matches = php_crud_api_transform(matchResp.data)[tablePrefix + "v_matches"];
+            $scope.predicate = 'date';
+            $scope.reverse = true;
+            $scope.order = function (predicate) {
+                $scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;
+                $scope.predicate = predicate;
+        }
+    });
+});
+
+app.controller('PlayerCtrl', function($scope, $http) {
+    $http.get(backPrefix + 'player?filter=id_team,eq,' + hsv_team_id).then(function (spielerResponse) {
+        $scope.spieler = php_crud_api_transform(spielerResponse.data)[tablePrefix + "player"];
+        $scope.predicate = 'count_goals';
         $scope.reverse = true;
         $scope.order = function(predicate) {
             $scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;
@@ -37,10 +56,9 @@ app.controller('SpielerCtrl', function($scope, $http) {
     });
 });
 
-app.controller('SpielerDetailsCtrl', ['$scope', '$routeParams', '$http', function($scope, $routeParams, $http) {
-    $http.get('backend.php/jos_fussball_spieler,jos_fussball_spieler_details?filter=id,eq,' + $routeParams.spielerId).then(function(spielerResponse) {
-        $scope.spieler = php_crud_api_transform(spielerResponse.data)["jos_fussball_spieler"][0];
-        $scope.spieler.details = $scope.spieler.jos_fussball_spieler_details[0];
+app.controller('PlayerDetailsCtrl', ['$scope', '$routeParams', '$http', function ($scope, $routeParams, $http) {
+    $http.get(backPrefix + 'player/' + $routeParams.playerId).then(function(playerResp) {
+        $scope.player = playerResp.data;
     });
 }]);
 

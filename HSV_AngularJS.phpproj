@@ -467,8 +467,8 @@
     <Compile Include="ng-ckeditor.min.js" />
     <Compile Include="php-crud-api\api.php" />
     <Compile Include="php_crud_api_transform.js" />
-    <Compile Include="views\Spieler.html" />
-    <Compile Include="views\SpielerDetails.html" />
+    <Compile Include="views\Player.html" />
+    <Compile Include="views\PlayerDetails.html" />
     <Compile Include="views\Start.html" />
     <Compile Include="test.php" />
   </ItemGroup>
@@ -586,7 +586,10 @@
     <Folder Include="php-crud-api\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="views\About.html" />
+    <Content Include="images\mannschaft_1_stunde.jpg" />
+    <Content Include="images\siegermannschaft1972.jpg" />
     <Content Include="views\Articles.html" />
+    <Content Include="views\History.html" />
+    <Content Include="views\Impressum.html" />
   </ItemGroup>
 </Project>

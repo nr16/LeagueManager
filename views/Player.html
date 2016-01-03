@@ -1,0 +1,41 @@
+<style type="text/css">
+  .sortorder:after {
+    content: '\25b2';
+  }
+  .sortorder.reverse:after {
+    content: '\25bc';
+  }
+</style>
+
+<h2>Spieler</h2>
+<form>
+  <input type="text" ng-model="search">
+  <p ng-show="search">Du suchst gerade nach: {{search}}</p>
+</form>
+
+<table class="table" ng-controller="PlayerCtrl">
+  <tr>
+    <th>
+      <a href="" ng-click="order('firstname')">Vorname</a>
+      <span class="sortorder" ng-show="predicate === 'firstname'" ng-class="{reverse:reverse}"></span>
+    </th>
+    <th>
+      <a href="" ng-click="order('lastname')">Nachname</a>
+      <span class="sortorder" ng-show="predicate === 'lastname'" ng-class="{reverse:reverse}"></span>
+    </th>
+    <th>
+      <a href="" ng-click="order('count_games')">Spiele</a>
+      <span class="sortorder" ng-show="predicate === 'count_games'" ng-class="{reverse:reverse}"></span>
+    </th>
+    <th>
+      <a href="" ng-click="order('count_goals')">Tore</a>
+      <span class="sortorder" ng-show="predicate === 'count_goals'" ng-class="{reverse:reverse}"></span>
+    </th>
+  </tr>
+  <tr ng-repeat="sp in spieler | filter: search | orderBy:predicate:reverse">
+    <td><a href="#/PlayerDetails/{{sp.id}}">{{sp.firstname}}</a></td>
+      <td><a href="#/PlayerDetails/{{sp.id}}">{{sp.lastname}}</a></td>
+    <td>{{sp.count_games}}</td>
+    <td>{{sp.count_goals}}</td>
+  </tr>
+</table>
