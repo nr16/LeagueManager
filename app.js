@@ -16,6 +16,7 @@ app.config(function($routeProvider) {
       .when('/Player', { templateUrl: 'views/Player.html' })
       .when('/PlayerDetails/:playerId', { templateUrl: 'views/PlayerDetails.html', controller: 'PlayerDetailsCtrl' })
       .when('/Matches', { templateUrl: 'views/Matches.html' })
+      .when('/MatchDetails/:matchId', { templateUrl: 'views/MatchDetails.html', controller: 'MatchDetailsCtrl' })
       .when('/Impressum', { templateUrl: 'views/Impressum.html' })
       .otherwise({ redirectTo: '/'});
   });
@@ -31,10 +32,10 @@ app.filter("imageName", [function() {
 
 
 app.controller('MatchesCtrl', function ($scope, $http) {
-    $http.get(backPrefix + 'v_matches?satisfy=any&filter[]=team1_id,eq,' + hsv_team_id + '&filter[]=team2_id,eq,' + hsv_team_id)
+    $http.get(backPrefix + 'matches?satisfy=any&filter[]=team1_id,eq,' + hsv_team_id + '&filter[]=team2_id,eq,' + hsv_team_id)
         
         .then(function (matchResp) {
-            $scope.matches = php_crud_api_transform(matchResp.data)[tablePrefix + "v_matches"];
+            $scope.matches = php_crud_api_transform(matchResp.data)[tablePrefix + "matches"];
             $scope.predicate = 'date';
             $scope.reverse = true;
             $scope.order = function (predicate) {
@@ -43,6 +44,12 @@ app.controller('MatchesCtrl', function ($scope, $http) {
         }
     });
 });
+
+app.controller('MatchDetailsCtrl', ['$scope', '$routeParams', '$http', function ($scope, $routeParams, $http) {
+    $http.get(backPrefix + 'matches?filter=id,eq,' + $routeParams.matchId).then(function (matchResp) {
+        $scope.m = php_crud_api_transform(matchResp.data)[tablePrefix + 'matches'][0];
+    });
+}]);
 
 app.controller('PlayerCtrl', function($scope, $http) {
     $http.get(backPrefix + 'player?filter=id_team,eq,' + hsv_team_id).then(function (spielerResponse) {

@@ -1,0 +1,6 @@
+<h2>{{m.team1_name}} <b>vs</b> {{m.team2_name}} {{m.goal1}} : {{m.goal2}}</h2>
+
+<p><b>Datum: </b> {{m.date}}</p>
+
+<h3 ng-show="!!m.description">Beschreibung</h3>
+<p ng-bind-html="m.description"></p>

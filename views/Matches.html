@@ -37,9 +37,9 @@
     </th>
   </tr>
   <tr ng-repeat="m in matches | filter: search | orderBy:predicate:reverse">
-    <td>{{m.date}}</td>
-    <td><a href="#/MatchDetails/{{m.id}}">{{m.team1_name}}</a></td>
-    <td><a href="#/MatchDetails/{{m.id}}">{{m.team2_name}}</a></td>
+    <td><a href="#/MatchDetails/{{m.id}}">{{m.date}}</a></td>
+    <td>{{m.team1_name}}</td>
+    <td>{{m.team2_name}}</td>
     <td>{{m.goal1}}</td>
     <td>{{m.goal2}}</td>
   </tr>
