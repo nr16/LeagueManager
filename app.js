@@ -2,10 +2,9 @@
 
 var app = angular.module('HSVApp', ['ngRoute', 'ngSanitize', 'ngCkeditor']);
 
-var hsv_team_id = 3;
-var backend = 'backend.php/';
-var tablePrefix = 'lm_';
-var backPrefix = backend + tablePrefix;
+app.run(function (UserService)
+{
+});
 
 app.config(function($routeProvider) {
     $routeProvider
@@ -18,9 +17,11 @@ app.config(function($routeProvider) {
       .when('/Matches', { templateUrl: 'views/Matches.html' })
       .when('/MatchDetails/:matchId', { templateUrl: 'views/MatchDetails.html', controller: 'MatchDetailsCtrl' })
       .when('/Impressum', { templateUrl: 'views/Impressum.html' })
+      .when('/Login', { templateUrl: 'views/Login.html', controller: 'LoginCtrl' })
+      .when('/Logout', { templateUrl: 'views/Logout.html', controller: 'LogoutCtrl' })
       .otherwise({ redirectTo: '/'});
   });
-  
+
 app.filter("imageName", [function() {
     return function (playerObj) {
         if (playerObj == null)
@@ -30,12 +31,86 @@ app.filter("imageName", [function() {
     }
 }]);
 
+app.controller('LogoutCtrl', function ($scope, $http, UserService) {
+    UserService.logout();
+});
 
-app.controller('MatchesCtrl', function ($scope, $http) {
-    $http.get(backPrefix + 'matches?satisfy=any&filter[]=team1_id,eq,' + hsv_team_id + '&filter[]=team2_id,eq,' + hsv_team_id)
+app.controller('LoginCtrl', function ($scope, $location, $http, UserService) {
+    $scope.login = function () {
+        UserService.login($scope.vm.username, $scope.vm.password).then(function (resp) {
+            $scope.message = resp.message;
+            if (resp.result) {
+                $location.path('/');
+            }
+        });
+
+        return true;
+    };
+});
+
+app.controller('MasterCtrl', function ($scope, $http, SettingsService) {
+    $scope.$mykey = SettingsService.masterKey;
+    $scope.saisons = null;
+    $scope.selectedSaisonId = null;
+
+    $http.get(SettingsService.backPrefix + 'saison')
+        .then(function (matchResp) {
+            $scope.saisons = php_crud_api_transform(matchResp.data)[SettingsService.tablePrefix + "saison"];
+            for (var i = 0; i < $scope.saisons.length; i++) {
+                if ($scope.saisons[i].isDefault)
+                    $scope.selectedSaisonId = $scope.saisons[i].id;
+            }
+
+        });
+});
+
+app.controller('RankTableCtrl', function ($scope, $http, SettingsService) {
+
+    var masterScope = SettingsService.GetMasterScope($scope);
+    var loadTable = function () {
+        $http.get(SettingsService.backPrefix + 'play_table?filter=id_saison,eq,' + masterScope.selectedSaisonId)
+
+        .then(function (matchResp) {
+            $scope.place = php_crud_api_transform(matchResp.data)[SettingsService.tablePrefix + "play_table"];
+
+            for (var i = 0; i < $scope.place.length; i++) {
+                var m = $scope.place[i];
+
+                m.defeat = m.match_count - m.wins - m.stand_off;
+                m.points = m.wins * 3 + m.stand_off;
+                m.goal_diff = m.shoot - m.got;
+            }
+
+            $scope.place.sort(function (a, b) {
+                return b.points - a.points;
+            });
+
+            for (var i = 0; i < $scope.place.length; i++) {
+                var m = $scope.place[i];
+                m.rank = i + 1;
+            }
+
+            $scope.predicate = 'rank';
+            $scope.reverse = false;
+            $scope.order = function (predicate) {
+                $scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;
+                $scope.predicate = predicate;
+            }
+        });
+    };
+    masterScope.$watch('selectedSaisonId', loadTable);
+
+    if (masterScope.selectedSaison != null) {
+       loadTable();
+    }
+});
+
+
+app.controller('MatchesCtrl', function ($scope, $http, SettingsService) {
+    $http.get(SettingsService.backPrefix + 'matches?satisfy=any&filter[]=team1_id,eq,' + SettingsService.teamId + '&filter[]=team2_id,eq,' + SettingsService.teamId)
         
         .then(function (matchResp) {
-            $scope.matches = php_crud_api_transform(matchResp.data)[tablePrefix + "matches"];
+            $scope.matches = php_crud_api_transform(matchResp.data)[SettingsService.tablePrefix + "matches"];
             $scope.predicate = 'date';
             $scope.reverse = true;
             $scope.order = function (predicate) {
@@ -45,15 +120,15 @@ app.controller('MatchesCtrl', function ($scope, $http) {
     });
 });
 
-app.controller('MatchDetailsCtrl', ['$scope', '$routeParams', '$http', function ($scope, $routeParams, $http) {
-    $http.get(backPrefix + 'matches?filter=id,eq,' + $routeParams.matchId).then(function (matchResp) {
-        $scope.m = php_crud_api_transform(matchResp.data)[tablePrefix + 'matches'][0];
+app.controller('MatchDetailsCtrl', function ($scope, $routeParams, $http, SettingsService) {
+    $http.get(SettingsService.backPrefix + 'matches?filter=id,eq,' + $routeParams.matchId).then(function (matchResp) {
+        $scope.m = php_crud_api_transform(matchResp.data)[SettingsService.tablePrefix + 'matches'][0];
     });
-}]);
+});
 
-app.controller('PlayerCtrl', function($scope, $http) {
-    $http.get(backPrefix + 'player?filter=id_team,eq,' + hsv_team_id).then(function (spielerResponse) {
-        $scope.spieler = php_crud_api_transform(spielerResponse.data)[tablePrefix + "player"];
+app.controller('PlayerCtrl', function ($scope, $http, SettingsService) {
+    $http.get(SettingsService.backPrefix + 'player?filter=id_team,eq,' + SettingsService.teamId).then(function (spielerResponse) {
+        $scope.spieler = php_crud_api_transform(spielerResponse.data)[SettingsService.tablePrefix + "player"];
         $scope.predicate = 'count_goals';
         $scope.reverse = true;
         $scope.order = function(predicate) {
@@ -63,20 +138,20 @@ app.controller('PlayerCtrl', function($scope, $http) {
     });
 });
 
-app.controller('PlayerDetailsCtrl', ['$scope', '$routeParams', '$http', function ($scope, $routeParams, $http) {
-    $http.get(backPrefix + 'player/' + $routeParams.playerId).then(function(playerResp) {
+app.controller('PlayerDetailsCtrl', function ($scope, $routeParams, $http, SettingsService) {
+    $http.get(SettingsService.backPrefix + 'player/' + $routeParams.playerId).then(function (playerResp) {
         $scope.player = playerResp.data;
     });
-}]);
+});
 
-app.controller('ArticlesCtrl', function ($scope, $http) {
+app.controller('ArticlesCtrl', function ($scope, $http, SettingsService) {
     var tableName = 'article';
-    $http.get(backPrefix + tableName).then(function (spielerResponse) {
-        $scope.articles = php_crud_api_transform(spielerResponse.data)[tablePrefix + tableName];
+    $http.get(SettingsService.backPrefix + tableName).then(function (spielerResponse) {
+        $scope.articles = php_crud_api_transform(spielerResponse.data)[SettingsService.tablePrefix + tableName];
     });
 });
   
-app.controller('ArticleEditCtrl', ['$scope', '$routeParams', function($scope, $routeParams) {
+app.controller('ArticleEditCtrl', function($scope, $routeParams) {
   $scope.$on("ckeditor.ready", function( event ) {
                 $scope.isReady = true;
             });
@@ -93,4 +168,4 @@ app.controller('ArticleEditCtrl', ['$scope', '$routeParams', function($scope, $r
   $scope.save = function() {
       console.info($scope.editorContent, 'save');
   }
-}]);
+});

@@ -1,10 +1,10 @@
 <html ng-app="HSVApp">
 <head>
-  <meta charset="utf8" />
-  <title>Holthausener Sportverein</title>
-  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="ng-ckeditor.css">
-  <style>
+    <meta charset="utf8" />
+    <title>Holthausener Sportverein</title>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="ng-ckeditor.css">
+    <style>
 body {
  /* border: solid 8pt #5555aa; */
  padding-left: 16pt
@@ -22,30 +22,42 @@ body {
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1 id="SiteTitle" class="well">Holthausener Sportverein</h1>
-  </div>
-  <div class="container">
+    <div ng-controller="MasterCtrl">
+        <div class="container">
+            <h1 id="SiteTitle" class="well">Holthausener Sportverein</h1>
+        </div>
+        <div class="container">
 
-    <p class="well">
-      <a href="#/">Start</a> 
-        | <a href="#/History">Geschichte</a> 
-        | <a href="#/Matches">Spiele</a> 
-        | <a href="#/Player">Spieler</a> 
-        | <a href="#/Impressum">Impressum</a>
-    </p>
-    
-    <div ng-view></div>
+            <p class="well">
+                <a href="#/">Start</a>
+                | <a href="#/History">Geschichte</a>
+                | <a href="#/Matches">Spiele</a>
+                | <a href="#/Player">Spieler</a>
+                | <a href="#/Impressum">Impressum</a>
+                | <a href="#/Login" ng-show="currentUser == null">Login</a>
+                | <a href="#/Logout" ng-show="currentUser != null">Logout</a>
+                | Saison
+                <select ng-model="selectedSaisonId">
+                    <option ng-repeat="s in saisons" selected="{{s.isDefault}}" value="{{s.id}}">{{s.name}}</option>
+                </select>
+            </p>
+            
+            <p class="well">Hallo {{currentUser.firstname}} {{currentUser.lastname}}</p>
 
-  </div>
-  
-  <script src="php_crud_api_transform.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-route.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-sanitize.js"></script>
-  <script src="ckeditor/ckeditor.js"></script>
-   <script src="ng-ckeditor.min.js"></script>
-  
-  <script src="app.js"></script>
+            <div ng-view></div>
+
+        </div>
+        
+    </div>
+    <script src="php_crud_api_transform.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-route.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-sanitize.js"></script>
+    <script src="ckeditor/ckeditor.js"></script>
+    <script src="ng-ckeditor.min.js"></script>
+
+    <script src="app.js"></script>
+    <script src="services/UserService.js"></script>
+    <script src="services/SettingsService.js"></script>
 </body>
 </html>

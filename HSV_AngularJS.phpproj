@@ -51,6 +51,15 @@
     <Compile Include="angularjs-tutorial-code\13-routes-final\articles.json" />
     <Compile Include="angularjs-tutorial-code\13-routes-final\index.html" />
     <Compile Include="angularjs-tutorial-code\13-routes-final\style.css" />
+    <Compile Include="backend\Config.inc.php" />
+    <Compile Include="backend\Core.inc.php" />
+    <Compile Include="backend\Data.php" />
+    <Compile Include="backend\GetSelf.php" />
+    <Compile Include="backend\Logout.php" />
+    <Compile Include="backend\Login.php" />
+    <Compile Include="backend\php-crud-api\api.php" />
+    <Compile Include="backend\phpinfo.php" />
+    <Compile Include="backend\test.php" />
     <Compile Include="ckeditor\adapters\jquery.js" />
     <Compile Include="ckeditor\lang\af.js" />
     <Compile Include="ckeditor\lang\ar.js" />
@@ -455,7 +464,6 @@
     <Compile Include="images\spieler\Sven_Böing.jpg" />
     <Compile Include="images\spieler\Ulrich_Kleining.jpg" />
     <Compile Include=".gitignore" />
-    <Compile Include="backend.php" />
     <Compile Include="app.js" />
     <Compile Include="articles.json" />
     <Compile Include="ckeditor.zip" />
@@ -470,7 +478,6 @@
     <Compile Include="views\Player.html" />
     <Compile Include="views\PlayerDetails.html" />
     <Compile Include="views\Start.html" />
-    <Compile Include="test.php" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="angularjs-tutorial-code\01-ng-app" />
@@ -487,6 +494,8 @@
     <Folder Include="angularjs-tutorial-code\12-directives" />
     <Folder Include="angularjs-tutorial-code\13-routes-final" />
     <Folder Include="angularjs-tutorial-code" />
+    <Folder Include="backend\" />
+    <Folder Include="backend\php-crud-api\" />
     <Folder Include="ckeditor\adapters" />
     <Folder Include="ckeditor\lang" />
     <Folder Include="ckeditor\plugins\a11yhelp\dialogs\lang" />
@@ -582,14 +591,21 @@
     <Folder Include="ckeditor" />
     <Folder Include="images\spieler" />
     <Folder Include="images" />
+    <Folder Include="services\" />
     <Folder Include="views\" />
     <Folder Include="php-crud-api\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="images\mannschaft_1_stunde.jpg" />
     <Content Include="images\siegermannschaft1972.jpg" />
+    <Content Include="services\SettingsService.js" />
+    <Content Include="services\UserService.js" />
     <Content Include="views\Articles.html" />
     <Content Include="views\History.html" />
     <Content Include="views\Impressum.html" />
+    <Content Include="views\Logout.html" />
+    <Content Include="views\Login.html" />
+    <Content Include="views\Matches.html" />
+    <Content Include="views\MatchDetails.html" />
   </ItemGroup>
 </Project>

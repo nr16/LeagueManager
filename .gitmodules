@@ -1,3 +1,6 @@
 [submodule "php-crud-api"]
-	path = php-crud-api
+	path = backend/php-crud-api
+	url = https://github.com/ManniManfred/php-crud-api.git
+[submodule "backend/php-crud-api"]
+	path = backend/php-crud-api
 	url = https://github.com/ManniManfred/php-crud-api.git
