@@ -27,27 +27,29 @@ body {
             <h1 id="SiteTitle" class="well">Holthausener Sportverein</h1>
         </div>
         <div class="container">
+            <div class="pull-right">
+                <a href="#/Login" ng-show="currentUser == null">Login</a>
+                <p ng-show="currentUser != null">{{currentUser.firstname}} {{currentUser.lastname}}</p>
+                <a href="#/Logout" ng-show="currentUser != null">Logout</a>
+            </div>
 
-            <p class="well">
+            <div class="well">
                 <a href="#/">Start</a>
                 | <a href="#/History">Geschichte</a>
                 | <a href="#/Matches">Spiele</a>
                 | <a href="#/Player">Spieler</a>
                 | <a href="#/Impressum">Impressum</a>
-                | <a href="#/Login" ng-show="currentUser == null">Login</a>
-                | <a href="#/Logout" ng-show="currentUser != null">Logout</a>
                 | Saison
                 <select ng-model="selectedSaisonId">
                     <option ng-repeat="s in saisons" selected="{{s.isDefault}}" value="{{s.id}}">{{s.name}}</option>
                 </select>
-            </p>
-            
-            <p class="well">Hallo {{currentUser.firstname}} {{currentUser.lastname}}</p>
+
+            </div>
 
             <div ng-view></div>
 
         </div>
-        
+
     </div>
     <script src="php_crud_api_transform.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.js"></script>

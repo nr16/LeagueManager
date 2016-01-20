@@ -3,8 +3,8 @@
 var app = angular.module('HSVApp');
 app.factory('UserService', function ($http, $rootScope, SettingsService) {
     var service = {
-        _setCurrentUser:function(user) {
-            $rootScope.currentUser = user;
+        _setCurrentUser: function (user) {
+            $rootScope.currentUser = angular.isObject(user) ? user : null;
         },
         getSelf: function () {
             return $http.post(SettingsService.GetFunctionUrl("GetSelf"))
@@ -30,6 +30,7 @@ app.factory('UserService', function ($http, $rootScope, SettingsService) {
             });
         }
     };
+    service._setCurrentUser(null);
     service.getSelf();
     return service;
 });
