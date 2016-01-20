@@ -5,7 +5,7 @@
         <div class="article">
         <h2>{{art.title}}</h2>
         <p ng-bind-html="art.content"></p>
-        <!-- <a href="#/edit_article/{{art.id}}">Bearbeiten</a> -->
+        <a ng-show="hasRight('editArticle')" href="#/EditArticle/{{art.id}}">Bearbeiten</a>
         </div>
     </div>
 </div>
@@ -15,7 +15,7 @@
 <table class="table" ng-controller="RankTableCtrl">
   <tr>
     <th>
-      <a href="" ng-click="order('rank')">Platz</a>
+      <a href="" ng-click="order('rank')">NR</a>
       <span class="sortorder" ng-show="predicate === 'rank'" ng-class="{reverse:reverse}"></span>
     </th>
     <th>

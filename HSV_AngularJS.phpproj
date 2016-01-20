@@ -466,9 +466,8 @@
     <Compile Include=".gitignore" />
     <Compile Include="app.js" />
     <Compile Include="articles.json" />
-    <Compile Include="ckeditor.zip" />
     <Compile Include="DB856815.sql" />
-    <Compile Include="edit_article.html" />
+    <Compile Include="views\EditArticle.html" />
     <Compile Include="index.html" />
     <Compile Include="install.sql" />
     <Compile Include="ng-ckeditor.css" />
@@ -596,6 +595,7 @@
     <Folder Include="php-crud-api\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app.css" />
     <Content Include="images\mannschaft_1_stunde.jpg" />
     <Content Include="images\siegermannschaft1972.jpg" />
     <Content Include="services\SettingsService.js" />
