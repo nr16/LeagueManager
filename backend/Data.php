@@ -1,17 +1,38 @@
 <?php
 
-include "config.inc.php";
-include "php-crud-api/api.php";
+require_once("config.inc.php");
+require_once("php-crud-api/api.php");
+
+require_once("Core.inc.php");
 
 // uncomment the lines below when running in stand-alone mode:
-
 $isAllowedTableFunction = function($cmd, $db, $tab)
 {
-    // TODO:
-    //if ($tab != 'jos_fussball_spieler')
-    //    return false;
+    // read/list is allowed for all   
+    if ($cmd == 'list' || $cmd == 'read') {
 
-    return true;
+        $tabShort = substr($tab, strlen($_ENV["table_prefix"]));
+
+        switch($tabShort) {
+            case 'article':
+            case 'matches':
+            case 'scorer':
+            case 'player':
+            case 'play_table':
+            case 'saison':
+                return true;
+        }
+    }
+
+    //if ($cmd == 'update' || $cmd == 'delete' || $cmd == 'create') {
+        $core = new MyCore();
+        $user = $core->GetSelf();
+        if ($user != null && $user['rights'] == 'ADMIN') {
+            return true;
+        }
+    //}
+
+    return false;
 };
 
 $api = new MySQL_CRUD_API(array(

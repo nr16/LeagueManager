@@ -472,7 +472,6 @@
     <Compile Include="install.sql" />
     <Compile Include="ng-ckeditor.css" />
     <Compile Include="ng-ckeditor.min.js" />
-    <Compile Include="php-crud-api\api.php" />
     <Compile Include="php_crud_api_transform.js" />
     <Compile Include="views\Player.html" />
     <Compile Include="views\PlayerDetails.html" />
@@ -592,7 +591,6 @@
     <Folder Include="images" />
     <Folder Include="services\" />
     <Folder Include="views\" />
-    <Folder Include="php-crud-api\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.css" />
@@ -600,6 +598,7 @@
     <Content Include="images\siegermannschaft1972.jpg" />
     <Content Include="services\SettingsService.js" />
     <Content Include="services\UserService.js" />
+    <Content Include="filters.js" />
     <Content Include="views\Articles.html" />
     <Content Include="views\History.html" />
     <Content Include="views\Impressum.html" />
@@ -607,5 +606,6 @@
     <Content Include="views\Login.html" />
     <Content Include="views\Matches.html" />
     <Content Include="views\MatchDetails.html" />
+    <Content Include="views\News.html" />
   </ItemGroup>
 </Project>

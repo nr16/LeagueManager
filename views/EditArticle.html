@@ -8,6 +8,9 @@
 	<p>
 		<input class="form-control" type="text" ng-model="article.title" placeholder="Titel" />
 	</p>
+	<p>Erstellt am {{article.created | dateTime}}. 
+		Zuletzt bearbeitet am {{article.modified | dateTime}}
+	</p>
 	<div ng-cloak ng-hide="isReady" class="highlight">
 		Initialising ...
    
@@ -20,5 +23,6 @@
 	<p>
 		<button class="btn btn-default" ng-click="saveAndClose()">Speichern und Schlie&szlig;en</button>
 		<button class="btn btn-default" ng-click="save()">Speichern</button>
+		<button class="btn btn-default" onclick="window.history.back();">Zur&uuml;ck</button>
 	</p>
 </form>

@@ -11,6 +11,7 @@ app.config(function ($routeProvider) {
       .when('/History', { templateUrl: 'views/History.html' })
       .when('/Articles', { templateUrl: 'views/Articles.html' })
       .when('/EditArticle/:articleId', { templateUrl: 'views/EditArticle.html', controller: 'EditArticleCtrl' })
+      .when('/DeleteArticle/:articleId', { template: 'Beitrag wird gel&ouml;scht...', controller: 'DeleteArticleCtrl' })
       .when('/Player', { templateUrl: 'views/Player.html' })
       .when('/PlayerDetails/:playerId', { templateUrl: 'views/PlayerDetails.html', controller: 'PlayerDetailsCtrl' })
       .when('/Matches', { templateUrl: 'views/Matches.html' })
@@ -21,14 +22,6 @@ app.config(function ($routeProvider) {
       .otherwise({ redirectTo: '/' });
 });
 
-app.filter("imageName", [function () {
-	return function (playerObj) {
-		if (playerObj == null)
-			return "undefined";
-
-		return (playerObj.firstname + "_" + playerObj.lastname).replace(" ", "_");
-	}
-}]);
 
 app.controller('LogoutCtrl', function ($scope, $http, UserService) {
 	UserService.logout();
@@ -138,42 +131,102 @@ app.controller('PlayerCtrl', function ($scope, $http, SettingsService) {
 });
 
 app.controller('PlayerDetailsCtrl', function ($scope, $routeParams, $http, SettingsService) {
-	$http.get(SettingsService.backPrefix + 'player/' + $routeParams.playerId).then(function (playerResp) {
-		$scope.player = playerResp.data;
-	});
+
+	var url = SettingsService.backPrefix + 'player';
+	var method = 'POST';
+
+	if ($routeParams.playerId != 'new') {
+		url += '/' + $routeParams.playerId;
+		method = 'PUT';
+
+		$http.get(url).then(function (resp) {
+			$scope.player = resp.data;
+		});
+	}
+
+	$scope.save = function () {
+
+		$scope.error = null;
+
+		if (!$scope.frm.$dirty) {
+			var directP = $q.defer();
+			setTimeout(function () { directP.resolve(true); }, 0);
+			return directP;
+		}
+
+		var data = $scope.player;
+
+		return $http({ "method": method, "url": url, "data": data })
+			.then(function success(response) {
+				if ($routeParams.articleId == 'new') {
+					$location.path('/PlayerDetails/' + response.data);
+				}
+			}, function failed(response) {
+				$scope.error = response.statusText + ": " + response.data;
+			});
+	}
 });
 
 app.controller('ArticlesCtrl', function ($scope, $http, SettingsService) {
 	var tableName = 'article';
-	$http.get(SettingsService.backPrefix + tableName).then(function (spielerResponse) {
+	// TODO: perhaps only first entries + '?order=id&page=1,2'
+	$http.get(SettingsService.backPrefix + tableName + '?order=created,desc').then(function (spielerResponse) {
 		$scope.articles = php_crud_api_transform(spielerResponse.data)[SettingsService.tablePrefix + tableName];
 	});
 });
 
-app.controller('EditArticleCtrl', function ($scope, $location, $routeParams, $http, SettingsService) {
+
+app.controller('DeleteArticleCtrl', function ($scope, $location, $routeParams, $http, SettingsService) {
+
+	var url = SettingsService.backPrefix + 'article' + '/' + $routeParams.articleId;;
+	$http.delete(url).then(function ($resp) {
+		$location.path('/');
+	});
+});
+
+app.controller('EditArticleCtrl', function ($q, $scope, $location, $routeParams, $http, SettingsService) {
 	$scope.$on("ckeditor.ready", function (event) {
 		$scope.isReady = true;
 	});
 
-	var url = SettingsService.backPrefix + 'article/' + $routeParams.articleId;
+	var url = SettingsService.backPrefix + 'article';
+	var method = 'POST';
 
-	$http.get(url).then(function (resp) {
-		$scope.article = resp.data;
-		$scope.title = resp.data.title;
-		$scope.editorContent = resp.data.content;
-	});
+	if ($routeParams.articleId != 'new') {
+		url += '/' + $routeParams.articleId;
+		method = 'PUT';
+
+		$http.get(url).then(function (resp) {
+			$scope.article = resp.data;
+			$scope.title = resp.data.title;
+			$scope.editorContent = resp.data.content;
+		});
+	}
 
 	$scope.save = function () {
 		//$scope.article.title = $scope.title;
-		if ($scope.frm.editor.$dirty) {
-			$scope.article.content = $scope.editorContent;
+		$scope.error = null;
+
+		if (!$scope.frm.$dirty) {
+			var directP = $q.defer();
+			setTimeout(function () { directP.resolve(true); }, 0);
+			return directP;
 		}
 
-		return $http.put(url, $scope.article).then(function success(response) {
+		var data = { 'id': $scope.article.id, 'title': $scope.article.title };
 
-		}, function failed(response) {
-			$scope.error = response.statusText + ": " + response.data;
-		});
+		if ($scope.frm.editor.$dirty) {
+			data.content = $scope.editorContent;
+		}
+
+		return $http({ "method": method, "url": url, "data": data })
+			.then(function success(response) {
+				if ($routeParams.articleId == 'new') {
+					$location.path('/EditArticle/' + response.data);
+				}
+			}, function failed(response) {
+				$scope.error = response.statusText + ": " + response.data;
+			});
 	}
 
 	$scope.saveAndClose = function () {

@@ -1,17 +1,6 @@
 <?php
 
-//include "php-crud-api/api.php";
-//
-//class MyCRUD extends MySQL_CRUD_API
-//{
-//    public function GetDb()
-//    {
-//        return $this->settings->db;
-//    }
-//}
-//
-
-include "config.inc.php";
+require_once("config.inc.php");
 
 /**
  * core short summary.
