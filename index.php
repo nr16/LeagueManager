@@ -1,7 +1,22 @@
-<html ng-app="HSVApp">
+<?php
+
+if (false)
+{
+  $dest['title'] = 'Holthausener Sportverein';
+  $dest['team'] = 3;
+  $dest['sites'] = array('History' => "Geschichte");
+} 
+else
+{
+  $dest['team'] = null;
+  $dest['title'] = 'Hobbyliga Kreis Borken';
+}
+?>
+
+<html ng-app="LeagueManager">
 <head>
 	<meta charset="utf8" />
-	<title>Holthausener Sportverein</title>
+	<title><?php echo $dest['title'] ?></title>
 	<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 	<link rel="stylesheet" href="ng-ckeditor.css">
 	<link rel="stylesheet" href="app.css">
@@ -9,7 +24,7 @@
 <body>
 	<div ng-controller="MasterCtrl">
 		<div class="container">
-			<h1 id="SiteTitle" class="well">Holthausener Sportverein</h1>
+			<h1 id="SiteTitle" class="well"><?php echo $dest['title'] ?></h1>
 		</div>
 		<div class="container">
 			<div class="pull-right">
@@ -20,7 +35,13 @@
 
 			<div class="well">
 				<a href="#/">Start</a>
-				| <a href="#/History">Geschichte</a>
+        <?php
+        if (isset($dest['sites'])) {
+          foreach ($dest['sites'] as $key => $value) {
+            echo "| <a href=\"#/$key\">$value</a>";
+          }
+        }
+        ?>
 				| <a href="#/Matches">Spiele</a>
 				| <a href="#/Player">Spieler</a>
 				| <a href="#/Impressum">Impressum</a>

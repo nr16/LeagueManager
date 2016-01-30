@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-var app = angular.module('HSVApp');
+var app = angular.module('LeagueManager');
 
 app.filter("imageName", [function () {
 	return function (playerObj) {

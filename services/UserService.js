@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-var app = angular.module('HSVApp');
+var app = angular.module('LeagueManager');
 app.factory('UserService', function ($http, $rootScope, SettingsService) {
 	var service = {
 		_setCurrentUser: function (user) {

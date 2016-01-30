@@ -1,7 +1,6 @@
 ﻿'use strict';
 
-
-var app = angular.module('HSVApp');
+var app = angular.module('LeagueManager');
 app.factory('SettingsService', function () {
 
 	var service = {

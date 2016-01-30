@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('HSVApp', ['ngRoute', 'ngSanitize', 'ngCkeditor']);
+var app = angular.module('LeagueManager', ['ngRoute', 'ngSanitize', 'ngCkeditor']);
 
 app.run(function (UserService) {
 });
