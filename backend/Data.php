@@ -18,6 +18,7 @@ $isAllowedTableFunction = function($cmd, $db, $tab)
             case 'matches':
             case 'scorer':
             case 'player':
+            case 'team':
             case 'play_table':
             case 'saison':
                 return true;

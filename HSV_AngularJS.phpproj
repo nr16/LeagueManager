@@ -467,8 +467,8 @@
     <Compile Include="app.js" />
     <Compile Include="articles.json" />
     <Compile Include="DB856815.sql" />
+    <Compile Include="index.php" />
     <Compile Include="views\EditArticle.html" />
-    <Compile Include="index.html" />
     <Compile Include="install.sql" />
     <Compile Include="ng-ckeditor.css" />
     <Compile Include="ng-ckeditor.min.js" />
@@ -591,21 +591,24 @@
     <Folder Include="images" />
     <Folder Include="services\" />
     <Folder Include="views\" />
+    <Folder Include="views\HSV\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.css" />
     <Content Include="images\mannschaft_1_stunde.jpg" />
     <Content Include="images\siegermannschaft1972.jpg" />
     <Content Include="services\SettingsService.js" />
+    <Content Include="services\DataService.js" />
     <Content Include="services\UserService.js" />
     <Content Include="filters.js" />
     <Content Include="views\Articles.html" />
-    <Content Include="views\History.html" />
+    <Content Include="views\HSV\History.html" />
     <Content Include="views\Impressum.html" />
     <Content Include="views\Logout.html" />
     <Content Include="views\Login.html" />
     <Content Include="views\Matches.html" />
     <Content Include="views\MatchDetails.html" />
     <Content Include="views\News.html" />
+    <Content Include="views\RankTable.html" />
   </ItemGroup>
 </Project>

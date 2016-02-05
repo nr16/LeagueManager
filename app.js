@@ -99,7 +99,11 @@ app.controller('RankTableCtrl', function ($scope, $http, SettingsService) {
 
 
 app.controller('MatchesCtrl', function ($scope, $http, SettingsService) {
-	$http.get(SettingsService.backPrefix + 'matches?satisfy=any&filter[]=team1_id,eq,' + SettingsService.teamId + '&filter[]=team2_id,eq,' + SettingsService.teamId)
+	var url = SettingsService.backPrefix + 'matches';
+	if (SettingsService.teamId != null)
+		url += '?satisfy=any&filter[]=team1_id,eq,' + SettingsService.teamId + '&filter[]=team2_id,eq,' + SettingsService.teamId;
+
+	$http.get(url)
 
         .then(function (matchResp) {
         	$scope.matches = php_crud_api_transform(matchResp.data)[SettingsService.tablePrefix + "matches"];
@@ -118,9 +122,10 @@ app.controller('MatchDetailsCtrl', function ($scope, $routeParams, $http, Settin
 	});
 });
 
-app.controller('PlayerCtrl', function ($scope, $http, SettingsService) {
-	$http.get(SettingsService.backPrefix + 'player?filter=id_team,eq,' + SettingsService.teamId).then(function (spielerResponse) {
-		$scope.spieler = php_crud_api_transform(spielerResponse.data)[SettingsService.tablePrefix + "player"];
+app.controller('PlayerCtrl', function ($scope, $http, DataService) {
+	
+	DataService.getPlayer().then(function (player) {
+		$scope.spieler = player;
 		$scope.predicate = 'count_goals';
 		$scope.reverse = true;
 		$scope.order = function (predicate) {

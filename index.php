@@ -70,33 +70,33 @@ else
 	<script src="filters.js"></script>
 	<script src="services/UserService.js"></script>
 	<script src="services/SettingsService.js"></script>
+	<script src="services/DataService.js"></script>
   
   <script>
 var app = angular.module('LeagueManager');
 app.factory('SettingsService', function () {
-  var tableP = '<?php echo $dest['table_prefix'] ?>';
+    var tableP = '<?php echo $dest['table_prefix'] ?>';
   
-	var service = {
-	var service = {
-		teamId: <?php echo $dest['team_id'] ?: null ?>,
-		backend: 'backend/data.php/',
-		tablePrefix: tableP,
-		backPrefix: 'backend/data.php/' + tableP,
-		masterKey: 'MasterCtrl',
-		GetMasterScope: function ($scope) {
-			var work = $scope;
-			while (work != null && work.$mykey != service.masterKey) {
-				work = work.$parent;
-			}
+    var service = {
+	    teamId: <?php echo isset($dest['team_id']) ? $dest['team_id'] : 'null' ?>,
+	    backend: 'backend/data.php/',
+	    tablePrefix: tableP,
+	    backPrefix: 'backend/data.php/' + tableP,
+	    masterKey: 'MasterCtrl',
+	    GetMasterScope: function ($scope) {
+		    var work = $scope;
+		    while (work != null && work.$mykey != service.masterKey) {
+			    work = work.$parent;
+		    }
 
-			return work;
-		},
-		GetFunctionUrl(fName) {
-			return "backend/" + fName + ".php";
-		}
-	};
+		    return work;
+	    },
+	    GetFunctionUrl(fName) {
+		    return "backend/" + fName + ".php";
+	    }
+    };
 
-	return service;
+    return service;
 });
 </script>
 
