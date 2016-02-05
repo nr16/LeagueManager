@@ -1,14 +1,16 @@
 <?php
+require_once('backend/Config.inc.php');
+
+$dest['table_prefix'] = $_ENV['table_prefix'];
 
 if (false)
 {
   $dest['title'] = 'Holthausener Sportverein';
-  $dest['team'] = 3;
+  $dest['team_id'] = 3;
   $dest['sites'] = array('History' => "Geschichte");
 } 
 else
 {
-  $dest['team'] = null;
   $dest['title'] = 'Hobbyliga Kreis Borken';
 }
 ?>
@@ -68,5 +70,35 @@ else
 	<script src="filters.js"></script>
 	<script src="services/UserService.js"></script>
 	<script src="services/SettingsService.js"></script>
+  
+  <script>
+var app = angular.module('LeagueManager');
+app.factory('SettingsService', function () {
+  var tableP = '<?php echo $dest['table_prefix'] ?>';
+  
+	var service = {
+	var service = {
+		teamId: <?php echo $dest['team_id'] ?: null ?>,
+		backend: 'backend/data.php/',
+		tablePrefix: tableP,
+		backPrefix: 'backend/data.php/' + tableP,
+		masterKey: 'MasterCtrl',
+		GetMasterScope: function ($scope) {
+			var work = $scope;
+			while (work != null && work.$mykey != service.masterKey) {
+				work = work.$parent;
+			}
+
+			return work;
+		},
+		GetFunctionUrl(fName) {
+			return "backend/" + fName + ".php";
+		}
+	};
+
+	return service;
+});
+</script>
+
 </body>
 </html>
