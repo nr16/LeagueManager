@@ -59,19 +59,28 @@ else
 		</div>
 
 	</div>
-	<script src="php_crud_api_transform.js"></script>
+	<script src="assets/libs/php_crud_api_transform.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-route.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-sanitize.js"></script>
-	<script src="ckeditor/ckeditor.js"></script>
-	<script src="ng-ckeditor.min.js"></script>
+	<script src="assets/libs/ckeditor/ckeditor.js"></script>
+	<script src="assets/libs/ng-ckeditor.min.js"></script>
 
-	<script src="app.js"></script>
-	<script src="filters.js"></script>
-	<script src="services/UserService.js"></script>
-	<script src="services/SettingsService.js"></script>
-	<script src="services/DataService.js"></script>
+	<script src="app/app.js"></script>
+	<script src="app/filters.js"></script>
+
+    <!-- services -->
+	<script src="app/services/UserService.js"></script>
+	<script src="app/services/SettingsService.js"></script>
+	<script src="app/services/DataService.js"></script>
   
+    <!-- components -->
+    <script src="app/components/Article/ArticleController.js"></script>
+    <script src="app/components/Auth/AuthController.js"></script>
+    <script src="app/components/Match/MatchController.js"></script>
+    <script src="app/components/Player/PlayerController.js"></script>
+    <script src="app/components/Team/TeamController.js"></script>
+
   <script>
 var app = angular.module('LeagueManager');
 app.factory('SettingsService', function () {
