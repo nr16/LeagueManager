@@ -5,7 +5,7 @@
 </form>
 
 <p ng-show="hasRight('editMasterData')">
-	<a href="#/PlayerDetails/new">Neuer Spieler</a>
+	<a href="#/Player/Details/new">Neuer Spieler</a>
 </p>
 <table class="table" ng-controller="PlayerCtrl">
 	<tr>
@@ -30,11 +30,11 @@
 			<span class="sortorder" ng-show="predicate === 'count_goals'" ng-class="{reverse:reverse}"></span>
 		</th>
 	</tr>
-	<tr ng-repeat="(key, sp) in spieler | filter: search | orderBy:predicate:reverse">
-		<td><a href="#/PlayerDetails/{{sp.id}}">{{sp.firstname}}</a></td>
-		<td><a href="#/PlayerDetails/{{sp.id}}">{{sp.lastname}}</a></td>
-		<td>{{sp.team.name}}</td>
-		<td>{{sp.count_games}}</td>
-		<td>{{sp.count_goals}}</td>
+	<tr ng-repeat="p in player | filter: search | orderBy:predicate:reverse">
+		<td><a href="#/Player/Details/{{p.id}}">{{p.firstname}}</a></td>
+		<td><a href="#/Player/Details/{{p.id}}">{{p.lastname}}</a></td>
+		<td>{{p.team.name}}</td>
+		<td>{{p.count_games}}</td>
+		<td>{{p.count_goals}}</td>
 	</tr>
 </table>

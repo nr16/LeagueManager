@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require_once('backend/Config.inc.php');
 
 $dest['table_prefix'] = $_ENV['table_prefix'];
@@ -20,8 +20,8 @@ else
 	<meta charset="utf8" />
 	<title><?php echo $dest['title'] ?></title>
 	<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-	<link rel="stylesheet" href="ng-ckeditor.css">
-	<link rel="stylesheet" href="app.css">
+	<link rel="stylesheet" href="assets/libs/ng-ckeditor.css">
+	<link rel="stylesheet" href="assets/css/app.css">
 </head>
 <body>
 	<div ng-controller="MasterCtrl">
@@ -45,7 +45,8 @@ else
         }
         ?>
 				| <a href="#/Matches">Spiele</a>
-				| <a href="#/Player">Spieler</a>
+                | <a href="#/Player/RankSaison">Torjäger</a>
+				| <a href="#/Player/RankHistory">Ewige Liste</a>
 				| <a href="#/Impressum">Impressum</a>
 				| Saison
                 <select ng-model="selectedSaisonId">

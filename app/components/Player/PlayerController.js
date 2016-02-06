@@ -3,9 +3,9 @@
 var app = angular.module('LeagueManager');
 
 app.controller('PlayerCtrl', function ($scope, $http, DataService) {
-	
-	DataService.getPlayer().then(function (player) {
-		$scope.spieler = player;
+	var promisePlayer = DataService.getPlayer();
+	promisePlayer.then(function (player) {
+		$scope.player = player;
 		$scope.predicate = 'count_goals';
 		$scope.reverse = true;
 		$scope.order = function (predicate) {
