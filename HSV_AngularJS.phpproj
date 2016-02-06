@@ -457,7 +457,7 @@
     <Compile Include="assets\libs\ng-ckeditor.min.js" />
     <Compile Include="assets\libs\php_crud_api_transform.js" />
     <Compile Include="app\components\Player\RankHistory.html" />
-    <Compile Include="app\components\Player\PlayerDetails.html" />
+    <Compile Include="app\components\Player\Details.html" />
     <Compile Include="app\components\Start\Start.html" />
   </ItemGroup>
   <ItemGroup>

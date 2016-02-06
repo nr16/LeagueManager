@@ -2,12 +2,41 @@
 
 var app = angular.module('LeagueManager');
 app.factory('DataService', function ($q, $http, $rootScope, SettingsService) {
+	var saisonMap = null;
+	var saisonArr = null;
+	var defaultSaison = null;
 	var teamsMap = null;
 	var teamsArr = null;
 	var playersMap = null;
 	var playersArr = null;
 
 	var service = {
+		getSaisons: function (asMap) {
+			if (saisonMap == null) {
+				var url = SettingsService.backPrefix + 'saison';
+				return $http.get(url).then(function (spielerResponse) {
+					saisonArr = php_crud_api_transform(spielerResponse.data)[SettingsService.tablePrefix + 'saison'];
+					saisonMap = {};
+					for (var i = 0; i < saisonArr.length; i++) {
+						var saison = saisonArr[i];
+						saisonMap[saison.id] = saison[i];
+
+						if (saison.isDefault)
+							defaultSaison = saison;
+					}
+					return asMap ? saisonMap : saisonArr;
+				});
+			}
+
+			var defer = $q.defer();
+			setTimeout(function () { defer.resolve(asMap ? saisonMap : saisonArr); }, 0);
+			return defer.promise;
+		},
+		getDefaultSaison: function(){
+			return service.getSaisons().then(function () {
+				return defaultSaison;
+			});
+		},
 		getTeams: function(asMap) {
 			if (teamsMap == null) {
 				var url = SettingsService.backPrefix + 'team';

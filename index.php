@@ -24,7 +24,7 @@ else
 	<link rel="stylesheet" href="assets/css/app.css">
 </head>
 <body>
-	<div ng-controller="MasterCtrl">
+	<div>
 		<div class="container">
 			<h1 id="SiteTitle" class="well"><?php echo $dest['title'] ?></h1>
 		</div>
@@ -49,8 +49,7 @@ else
 				| <a href="#/Player/RankHistory">Ewige Liste</a>
 				| <a href="#/Impressum">Impressum</a>
 				| Saison
-                <select ng-model="selectedSaisonId">
-					<option ng-repeat="s in saisons" selected="{{s.isDefault}}" value="{{s.id}}">{{s.name}}</option>
+                <select ng-model="selectedSaisonId" ng-options="s.id as s.name for s in saisons">
 				</select>
 
 			</div>
@@ -72,7 +71,6 @@ else
 
     <!-- services -->
 	<script src="app/services/UserService.js"></script>
-	<script src="app/services/SettingsService.js"></script>
 	<script src="app/services/DataService.js"></script>
   
     <!-- components -->
@@ -92,15 +90,6 @@ app.factory('SettingsService', function () {
 	    backend: 'backend/data.php/',
 	    tablePrefix: tableP,
 	    backPrefix: 'backend/data.php/' + tableP,
-	    masterKey: 'MasterCtrl',
-	    GetMasterScope: function ($scope) {
-		    var work = $scope;
-		    while (work != null && work.$mykey != service.masterKey) {
-			    work = work.$parent;
-		    }
-
-		    return work;
-	    },
 	    GetFunctionUrl(fName) {
 		    return "backend/" + fName + ".php";
 	    }

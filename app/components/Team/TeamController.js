@@ -2,11 +2,10 @@
 
 var app = angular.module('LeagueManager');
 
-app.controller('RankTableCtrl', function ($scope, $http, SettingsService) {
+app.controller('RankTableCtrl', function ($scope, $rootScope, $http, SettingsService) {
 
-	var masterScope = SettingsService.GetMasterScope($scope);
 	var loadTable = function () {
-		$http.get(SettingsService.backPrefix + 'play_table?filter=id_saison,eq,' + masterScope.selectedSaisonId)
+		$http.get(SettingsService.backPrefix + 'play_table?filter=id_saison,eq,' + $rootScope.selectedSaisonId)
 
         .then(function (matchResp) {
         	$scope.place = php_crud_api_transform(matchResp.data)[SettingsService.tablePrefix + "play_table"];
@@ -36,9 +35,9 @@ app.controller('RankTableCtrl', function ($scope, $http, SettingsService) {
         	}
         });
 	};
-	masterScope.$watch('selectedSaisonId', loadTable);
+	$rootScope.$watch('selectedSaisonId', loadTable);
 
-	if (masterScope.selectedSaison != null) {
+	if ($rootScope.selectedSaison != null) {
 		loadTable();
 	}
 });

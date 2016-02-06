@@ -2,7 +2,16 @@
 
 var app = angular.module('LeagueManager', ['ngRoute', 'ngSanitize', 'ngCkeditor']);
 
-app.run(function (UserService) {
+app.run(function ($rootScope, UserService, DataService) {
+
+	DataService.getSaisons().then(function (saisons) {
+		$rootScope.saisons = saisons;
+	}).then(function () {
+		DataService.getDefaultSaison().then(function (defaultSaison) {
+			$rootScope.selectedSaisonId = defaultSaison.id;
+		});
+	});
+
 });
 
 app.config(function ($routeProvider) {
@@ -21,21 +30,5 @@ app.config(function ($routeProvider) {
       .when('/Login', { templateUrl: 'app/components/Auth/Login.html', controller: 'LoginCtrl' })
       .when('/Logout', { templateUrl: 'app/components/Auth/Logout.html', controller: 'LogoutCtrl' })
       .otherwise({ redirectTo: '/' });
-});
-
-app.controller('MasterCtrl', function ($scope, $http, SettingsService) {
-	$scope.$mykey = SettingsService.masterKey;
-	$scope.saisons = null;
-	$scope.selectedSaisonId = null;
-
-	$http.get(SettingsService.backPrefix + 'saison')
-        .then(function (matchResp) {
-        	$scope.saisons = php_crud_api_transform(matchResp.data)[SettingsService.tablePrefix + "saison"];
-        	for (var i = 0; i < $scope.saisons.length; i++) {
-        		if ($scope.saisons[i].isDefault)
-        			$scope.selectedSaisonId = $scope.saisons[i].id;
-        	}
-
-        });
 });
 
