@@ -63,7 +63,8 @@ else
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-route.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-sanitize.js"></script>
-	<script src="assets/libs/ckeditor/ckeditor.js"></script>
+	<!-- <script src="assets/libs/ckeditor/ckeditor.js"></script> -->
+	<script src="//cdn.ckeditor.com/4.5.7/standard/ckeditor.js"></script>
 	<script src="assets/libs/ng-ckeditor.min.js"></script>
 
 	<script src="app/app.js"></script>
